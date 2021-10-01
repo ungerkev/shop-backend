@@ -6,5 +6,5 @@ import { join } from 'path';
  */
 export const appPort = process.env.HTTP_PORT || 3000;
 
-// DB paths
+
 export const modelsDir = join(parentDirFinder.sync(__dirname, 'db_models'), 'db_models');

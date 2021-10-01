@@ -9,10 +9,18 @@ import {
     timestamps: true,
 })
 
-export class Blog extends Model {
+export class Product extends Model {
     @AllowNull(false)
     @Column
-    header: string;
+    name: string;
+
+    @AllowNull(false)
+    @Column
+    price: string;
+
+    @AllowNull(true)
+    @Column
+    oldPrice: string;
 
     @AllowNull(false)
     @Column
@@ -20,7 +28,7 @@ export class Blog extends Model {
 
     @AllowNull(false)
     @Column
-    text: string;
+    articleNr: string;
 
     @AllowNull(false)
     @Column
