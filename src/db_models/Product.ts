@@ -16,11 +16,11 @@ export class Product extends Model {
 
     @AllowNull(false)
     @Column
-    price: string;
+    price: number;
 
     @AllowNull(true)
     @Column
-    oldPrice: string;
+    oldPrice: number;
 
     @AllowNull(false)
     @Column
@@ -37,5 +37,4 @@ export class Product extends Model {
     @AllowNull(false)
     @Column
     tags: string;
-
 }

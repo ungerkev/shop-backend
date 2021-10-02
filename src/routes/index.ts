@@ -21,6 +21,6 @@ router.get('/', authMiddleware.isAuthenticated, statusController.status);
 /**
  * Product Routes
  */
-router.get('/products/:id', productController.getProductsByIdController);
+router.get('/products', productController.getProductsController);
 
 module.exports = router;

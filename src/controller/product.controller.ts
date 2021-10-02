@@ -5,6 +5,7 @@ import {
     Response,
 } from 'express';
 import { ProductService } from "../service/product.service";
+import {IProduct} from "../interfaces/IProduct";
 
 /**
  * Product controller class
@@ -13,11 +14,13 @@ import { ProductService } from "../service/product.service";
 export class ProductController {
     constructor(private productService: ProductService) {}
 
-    getProductsByIdController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        const id = parseInt(req.params.id) | 0;
+    getProductsController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const products = await this.productService.getProductsById(id);
-            res.status(200).json({products});
+            const products: { count: number, rows: IProduct[]} = await this.productService.getProducts();
+            res.status(200).json({
+                count: products.count,
+                rows: products.rows
+            });
         } catch (err: any) {
             console.log(err);
             next(err);
