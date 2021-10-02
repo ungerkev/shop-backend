@@ -14,9 +14,18 @@ import {IProduct} from "../interfaces/IProduct";
 export class ProductController {
     constructor(private productService: ProductService) {}
 
+    /**
+     * Controller for getting all products
+     * @param req
+     * @param res
+     * @param next
+     */
     getProductsController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        const page: string = req.query.page?.toString() || '1';
+        const limit: string = req.query.limit?.toString() || '50';
+
         try {
-            const products: { count: number, rows: IProduct[]} = await this.productService.getProducts();
+            const products: { count: number, rows: IProduct[]} = await this.productService.getProducts(parseInt(page, 10), parseInt(limit, 10));
             res.status(200).json({
                 count: products.count,
                 rows: products.rows

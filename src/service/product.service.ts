@@ -6,9 +6,17 @@ import {IProduct} from "../interfaces/IProduct";
 export class ProductService {
     constructor() { }
 
-    public async getProducts(): Promise<{ rows: IProduct[], count: number }> {
+    /**
+     * Get all products (optional with pagination)
+     * @param page number
+     * @param limit number
+     */
+    public async getProducts(page: number, limit: number): Promise<{ rows: IProduct[], count: number }> {
         try {
-            return await Product.findAndCountAll();
+            return await Product.findAndCountAll({
+                offset: (page - 1) * limit,
+                limit: limit
+            });
         } catch (error: any) {
             throw new Error('Could not get products');
         }
