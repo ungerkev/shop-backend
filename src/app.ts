@@ -9,6 +9,7 @@ config(); // load data from .env
 import { Container } from 'typedi';
 import { DatabaseLoader } from './loaders/database.loader';
 import { appPort } from './configs/app.conf';
+import * as path from "path";
 
 /**
  * Initialization
@@ -24,6 +25,7 @@ const routes = require('./routes/index');
 app.use(helmet());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use('/images', express.static(path.join(__dirname, '../images'))); // Route for public images
 // app.use(express.json());
 app.use('/', routes);
 
