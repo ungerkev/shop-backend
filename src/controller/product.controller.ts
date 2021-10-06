@@ -39,7 +39,8 @@ export class ProductController {
     }
 
     /**
-     * Controller for saving new product in DB
+     * Controller for saving new product WITH IMAGE in DB
+     * Using formidable to save image in folder "image" !
      * @param req
      * @param res
      * @param next
