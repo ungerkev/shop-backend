@@ -6,6 +6,8 @@ import {
 } from 'express';
 import { ProductService } from "../service/product.service";
 import {IProduct} from "../interfaces/IProduct";
+import * as formidable from 'formidable';
+// import * as fs from 'fs';
 
 /**
  * Product controller class
@@ -43,14 +45,28 @@ export class ProductController {
      * @param next
      */
     saveNewProductController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-        const product: IProduct = req.body.product;
+        const form: any = new formidable.IncomingForm({
+            uploadDir: __dirname + '/../../images',
+            keepExtensions: true,
+        });
 
-        try {
-            const newProduct = await this.productService.saveNewProduct(product);
-            res.status(200).json({ newProduct });
-        } catch (err: any) {
-            console.log(err);
-            next(err);
-        }
+        form.parse(req, async (error: any, fields: any, files: any) => {
+            if (error) {
+                throw new Error('Error at incoming form');
+            }
+            const imagePath = files.image.path;
+            const splits = imagePath.split('/');
+            const image = splits[splits.length - 1];
+
+            const product = JSON.parse(fields.product);
+            product.image = image;
+
+            try {
+                const newProduct = await this.productService.saveNewProduct(product);
+                res.status(200).json({ newProduct });
+            } catch (e) {
+                next(e);
+            }
+        });
     }
 }
