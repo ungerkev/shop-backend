@@ -2,7 +2,7 @@ import {
     Column,
     Model,
     Table,
-    AllowNull,
+    AllowNull, Unique,
 } from 'sequelize-typescript';
 
 @Table({
@@ -27,6 +27,7 @@ export class Product extends Model {
     image: string;
 
     @AllowNull(false)
+    @Unique
     @Column
     articleNr: string;
 

@@ -22,5 +22,6 @@ router.get('/', authMiddleware.isAuthenticated, statusController.status);
  * Product Routes
  */
 router.get('/products', productController.getProductsController);
+router.post('/product', productController.saveNewProductController);
 
 module.exports = router;

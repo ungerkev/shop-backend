@@ -9,6 +9,7 @@ export interface IProduct {
     price: number;
     oldPrice: number;
     tags: string;
+    articleNr: string;
 }
 
 /**
@@ -24,5 +25,6 @@ export function getIProduct(): IProduct {
         price: 0,
         oldPrice: 0,
         tags: '',
+        articleNr: ''
     };
 }

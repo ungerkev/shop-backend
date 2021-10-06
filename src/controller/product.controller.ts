@@ -35,4 +35,22 @@ export class ProductController {
             next(err);
         }
     }
+
+    /**
+     * Controller for saving new product in DB
+     * @param req
+     * @param res
+     * @param next
+     */
+    saveNewProductController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        const product: IProduct = req.body.product;
+
+        try {
+            const newProduct = await this.productService.saveNewProduct(product);
+            res.status(200).json({ newProduct });
+        } catch (err: any) {
+            console.log(err);
+            next(err);
+        }
+    }
 }
