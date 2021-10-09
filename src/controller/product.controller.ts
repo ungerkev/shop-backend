@@ -7,7 +7,6 @@ import {
 import { ProductService } from "../service/product.service";
 import {IProduct} from "../interfaces/IProduct";
 import * as formidable from 'formidable';
-// import * as fs from 'fs';
 
 /**
  * Product controller class
@@ -33,7 +32,6 @@ export class ProductController {
                 rows: products.rows
             });
         } catch (err: any) {
-            console.log(err);
             next(err);
         }
     }
@@ -65,9 +63,25 @@ export class ProductController {
             try {
                 const newProduct = await this.productService.saveNewProduct(product);
                 res.status(200).json({ newProduct });
-            } catch (e) {
+            } catch (e: any) {
                 next(e);
             }
         });
+    }
+
+    /**
+     * Controller for delete product of ID
+     * @param req
+     * @param res
+     * @param next
+     */
+    deleteProductController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+        const id = parseInt(req.params.id, 10) || 0;
+        try {
+            await this.productService.deleteProduct(id);
+            res.status(200).json({ success: `Delete product with id ${id} was successfully` });
+        } catch (e: any) {
+            next(e);
+        }
     }
 }

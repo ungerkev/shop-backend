@@ -23,5 +23,6 @@ router.get('/', authMiddleware.isAuthenticated, statusController.status);
  */
 router.get('/products', productController.getProductsController);
 router.post('/product', productController.saveNewProductController);
+router.delete('/product/:id', productController.deleteProductController);
 
 module.exports = router;

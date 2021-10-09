@@ -1,6 +1,7 @@
-import {Service} from 'typedi';
-import {Product} from "../db_models/Product";
-import {IProduct} from "../interfaces/IProduct";
+import { Service } from 'typedi';
+import { Product } from "../db_models/Product";
+import { IProduct } from "../interfaces/IProduct";
+import fs from "fs";
 
 @Service()
 export class ProductService {
@@ -23,6 +24,23 @@ export class ProductService {
             });
         } catch (error: any) {
             throw new Error('Could not get products');
+        }
+    }
+
+    /**
+     * Get one product of the given ID
+     * @param id number
+     */
+    public async getProductById(id: number): Promise<IProduct | null> {
+        if (!id) {
+            throw new Error('Missing data');
+        }
+
+        try {
+            const product: any = await Product.findOne({ where: { id } });
+            return product.dataValues;
+        } catch (error: any) {
+            throw new Error('Could not get product');
         }
     }
 
@@ -51,4 +69,37 @@ export class ProductService {
         }
     }
 
+    /**
+     * Delete product of ID
+     * @param id number
+     */
+    public async deleteProduct(id: number): Promise<number> {
+        if (!id) {
+            throw new Error('Missing data');
+        }
+
+        let product: IProduct | null;
+
+        try {
+            product = await this.getProductById(id);
+        } catch (e: any) {
+            throw new Error(`Product with id ${id} not found`);
+        }
+
+        if (!product) {
+            throw new Error(`Product with id ${id} not found`);
+        }
+
+        fs.unlink(__dirname + '/../../images/' + product?.image, (err) => {
+            if (err) {
+                throw new Error(`Could not unlink image of product with id ${id}`);
+            }
+        });
+
+        try {
+            return await Product.destroy({where: {id}});
+        } catch (e: any) {
+            throw new Error(`Could not delete product with id ${id}`);
+        }
+    }
 }
